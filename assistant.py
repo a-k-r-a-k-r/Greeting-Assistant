@@ -9,8 +9,8 @@ import requests
 def get_data():
     global current_time_hour, current_time_minute, current_time_session, current_date, current_month, current_year, current_day
     today = datetime.datetime.now()
-    current_time_hour = today.strftime("%I")  #eg: 10
-    current_time_minute = today.strftime("%M")  #eg: 40
+    current_time_hour = int(today.strftime("%I"))  #eg: 10
+    current_time_minute = int(today.strftime("%M"))  #eg: 40
     current_time_session = today.strftime("%p")  #eg: AM
     current_date = int(today.strftime("%d")) #eg: 31
     current_month = today.strftime("%B") #eg: March
@@ -19,9 +19,10 @@ def get_data():
 
 
 def speak():
+    pyttsx3.speak("{} a k r".format(greeting))    #replace it with your name
     pyttsx3.speak("Today is {} {} {} {}".format(current_day, current_month, current_date, current_year))
     time.sleep(.5)
-    pyttsx3.speak("Time is " + current_time_hour + current_time_minute + current_time_session)
+    pyttsx3.speak("Time is {} {} {}".format(current_time_hour, current_time_minute, current_time_session))
     pyttsx3.speak("Opening your GitHub account for you")
 
 
@@ -40,7 +41,23 @@ def check_net():
         pyttsx3.speak("Unable to open GitHub. Looks like you are offline")
 
 
-pyttsx3.speak("welcome a k r")    #replace it with your name
 get_data()
+
+'''
+    Good morning   : 00 - 11 and AM
+    Good afternoon  : 12 - 2 and PM
+    Good evening  :  3 - 6 and PM
+    Welcome : 7 - 12 and PM
+'''
+if (current_time_hour < 12 and current_time_session == "AM"):
+    greeting = "Good Morning"
+elif (current_time_hour < 3 and current_time_session == "PM"):
+    greeting = "Good Afternoon"
+elif (current_time_hour < 7 and current_time_session == "PM"):
+    greeting = "Good Evening"
+elif (current_time_hour < 12 and current_time_session == "PM"):
+    greeting = "Welcome"
+
+
 speak()
 check_net()      #Replace if necessary, with the function that you need
