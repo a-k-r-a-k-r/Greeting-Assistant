@@ -33,7 +33,7 @@ def check_net():
     try:
         if requests.get('https://8.8.8.8').ok:
             time.sleep(1)
-            pyttsx3.speak("Have a nice day abhi")
+            pyttsx3.speak("Have a nice day a k r")
             open_github()            
     except:
         time.sleep(1)
